@@ -29,7 +29,7 @@ vector_heatmap <- function(capa,radius,resolution){
 
 
   #Standar resolution
-  if(is.na(resolution)) resolution=600
+  if(is.na(resolution)) {resolution=600}
 
   # Read information
   Capa_heatmap <- st_read(capa)
