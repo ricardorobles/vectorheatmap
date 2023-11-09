@@ -25,7 +25,7 @@ library(kde1d)
 
 
 
-vector_heatmap <- function(capa,radius=NA,resolution=NA,write=FALSE){
+vector_heatmap <- function(capa,radius=NA,resolution=NA,write=NA){
 
 
   #Standar resolution
@@ -62,21 +62,24 @@ vector_heatmap <- function(capa,radius=NA,resolution=NA,write=FALSE){
 
 
   # Vectorized de raster
-  Vectorizado = rasterToPolygons(clases1, dissolve = FALSE) %>% st_as_sf() %>% dplyr::mutate(layer=(layer*100000000)-1) %>% dplyr::mutate(concentración=ceiling(layer)) %>% dplyr::select(concentración)
+  Vectorizado = rasterToPolygons(clases1, dissolve = FALSE) %>% st_as_sf()
+
+
+  #Ajustar valores
+  range01 <- function(x){(x-min(x))/(max(x)-min(x))}
+  Vectorizado_ajustado <- dplyr::mutate(Vectorizado,concentración=range01(Vectorizado$layer)) %>% dplyr::select(concentración)
+
 
 
   # Give the vector layer de original crs
-  st_crs(Vectorizado) <- crs(Capa_heatmap)
+  st_crs(Vectorizado_ajustado) <- crs(Capa_heatmap)
 
 
   # Eliminate errors
-  Vectorizado_unido <- Vectorizado %>% st_buffer(0.1)
+  Vectorizado_unido <- Vectorizado_ajustado %>% st_buffer(0.1)
 
 
   # Unify polygons
   Vectorizado_unido <- Vectorizado_unido %>% dplyr::group_by(concentración) %>% dplyr::summarise(geometry=st_union(geometry)) %>% dplyr::ungroup()
-
-  if(write=TRUE) {unlink("heatmap.geojson")
-    st_write(heatmap,"heatmap.geojson")}
 }
 
