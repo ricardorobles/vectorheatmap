@@ -58,7 +58,7 @@ vector_heatmap <- function(capa,radius=NA,resolution=NA,write=NA){
   r = raster(k)
 
   # Eliminate lower values
-  clases1 <- reclassify(r, c(-Inf,0.00000001,NA))
+  clases1 <- reclassify(r, c(-Inf,0.1e-10,NA))
 
 
   # Vectorized de raster
