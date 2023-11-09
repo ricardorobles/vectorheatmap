@@ -25,11 +25,12 @@ library(kde1d)
 
 
 
-vector_heatmap <- function(capa,radius,resolution){
+vector_heatmap <- function(capa,radius=NA,resolution=NA){
 
 
   #Standar resolution
   if(is.na(resolution)) {resolution=600}
+  if(is.na(radius)) {radius=600}
 
   # Read information
   Capa_heatmap <- st_read(capa)
