@@ -67,7 +67,7 @@ vector_heatmap <- function(capa,radius=NA,resolution=NA,write=NA){
 
   #Ajustar valores
   range01 <- function(x){(x-min(x))/(max(x)-min(x))}
-  Vectorizado_ajustado <- dplyr::mutate(Vectorizado,concentración=range01(Vectorizado$layer)) %>% dplyr::select(concentración)
+  Vectorizado_ajustado <- dplyr::mutate(Vectorizado,concentración=range01(Vectorizado$layer)) %>% dplyr::select(concentración) %>% mutate(concentración=signif(concentración, digits = 1))
 
 
 
