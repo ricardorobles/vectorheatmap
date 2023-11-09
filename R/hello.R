@@ -25,7 +25,7 @@ library(kde1d)
 
 
 
-vector_heatmap <- function(capa,radius=NA,resolution=NA){
+vector_heatmap <- function(capa,radius=NA,resolution=NA,write=FALSE){
 
 
   #Standar resolution
@@ -75,5 +75,8 @@ vector_heatmap <- function(capa,radius=NA,resolution=NA){
 
   # Unify polygons
   Vectorizado_unido <- Vectorizado_unido %>% dplyr::group_by(concentración) %>% dplyr::summarise(geometry=st_union(geometry)) %>% dplyr::ungroup()
+
+  if(write=TRUE) {unlink("heatmap.geojson")
+    st_write(heatmap,"heatmap.geojson")}
 }
 
