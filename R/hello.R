@@ -29,7 +29,7 @@ vector_heatmap <- function(capa,radius=NA,resolution=NA){
 
 
   #Standar resolution
-  if(is.na(resolution)) {resolution=600}
+  if(is.na(resolution)) {resolution=200}
   if(is.na(radius)) {radius=600}
 
   # Read information
@@ -75,9 +75,5 @@ vector_heatmap <- function(capa,radius=NA,resolution=NA){
 
   # Unify polygons
   Vectorizado_unido <- Vectorizado_unido %>% dplyr::group_by(concentración) %>% dplyr::summarise(geometry=st_union(geometry)) %>% dplyr::ungroup()
-
-
-  # Plot
-  plot(Vectorizado_unido)
 }
 
